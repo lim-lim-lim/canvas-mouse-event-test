@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MouseEvent 1</title>
+    <style>
+        canvas {
+            border: 1px solid silver;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script>
+        class App {
+            constructor(canvasElement) {
+                this.canvas = canvasElement;
+                this.context = this.canvas.getContext('2d');
+                this.rect = {
+                    x: 100,
+                    y: 100,
+                    width: 100,
+                    height: 100,
+                    color: '#FF9900'
+                };
+                this.initMouseEvent();
+                this.render();
+            }
+
+            initMouseEvent() {
+                this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            processClick({ offsetX, offsetY }) {
+                if (this.hitTest(offsetX, offsetY)) {
+                    alert('Clicked...!!!')
+                }
+            }
+
+            render() {
+                const rect = this.rect;
+                const context = this.context;
+                context.save();
+                context.fillStyle = rect.color;
+                context.fillRect(rect.x, rect.y, rect.width, rect.height);
+                context.restore();
+            }
+
+            hitTest(x, y) {
+                const rect = this.rect;
+                const minX = rect.x;
+                const maxX = minX + rect.width;
+                const minY = rect.y;
+                const maxY = minY + rect.height;
+                return x > minX !== x > maxX && y > minY !== y > maxY;
+            }
+        }
+
+        new App(document.getElementById('canvas'))
+    </script>
+</body>
+
+</html>

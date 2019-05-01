@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MouseEvent 2</title>
+    <style>
+        canvas {
+            border: 1px solid silver;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script>
+        class App {
+            constructor(canvasElement) {
+                this.canvas = canvasElement;
+                this.context = this.canvas.getContext('2d');
+                this.circle = {
+                    x: 150,
+                    y: 150,
+                    radius: 70,
+                    color: '#FF9900'
+                };
+                this.initMouseEvent();
+                this.render();
+            }
+
+            initMouseEvent() {
+                this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            processClick({ offsetX, offsetY }) {
+                if (this.hitTest(offsetX, offsetY)) {
+                    alert('Clicked...!!!')
+                }
+            }
+
+            render() {
+                const circle = this.circle;
+                const context = this.context;
+                context.save();
+                context.fillStyle = circle.color;
+                context.beginPath();
+                context.arc(circle.x, circle.y, circle.radius, 2 * Math.PI, false);
+                context.fill();
+                context.restore();
+            }
+
+            hitTest(x, y) {
+                const circle = this.circle;
+                const centerX = this.circle.x;
+                const centerY = this.circle.y;
+                const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                return distance <= circle.radius;
+            }
+        }
+
+        new App(document.getElementById('canvas'))
+    </script>
+</body>
+
+</html>

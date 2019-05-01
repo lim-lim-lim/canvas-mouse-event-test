@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MouseEvent 3</title>
+    <style>
+        canvas {
+            border: 1px solid silver;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script>
+        class App {
+            constructor(canvasElement) {
+                this.canvas = canvasElement;
+                this.context = this.canvas.getContext('2d');
+                this.poly = {
+                    x: 100,
+                    y: 100,
+                    path: [[20, -20], [50, -30], [70, 0], [90, 30], [130, 0], [140, 70], [60, 80], [30, 30], [20, 75], [-20, 40]],
+                    color: '#FF9900'
+                };
+                this.initMouseEvent();
+                this.render();
+            }
+
+            initMouseEvent() {
+                this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            processClick({ offsetX, offsetY }) {
+                if (this.hitTest(offsetX, offsetY)) {
+                    alert('Clicked...!!!')
+                }
+            }
+
+            render() {
+                const poly = this.poly;
+                const startX = poly.x;
+                const startY = poly.y;
+                const path = poly.path;
+                const context = this.context;
+                context.fillStyle = poly.color;
+                context.beginPath();
+                context.moveTo(startX, startY)
+                path.forEach(([x, y]) => context.lineTo(x + startX, y + startY));
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+
+            hitTest(x, y) {
+                const poly = this.poly;
+                const path = poly.path;
+                const pathLength = path.length;
+                const startX = poly.x;
+                const startY = poly.y;
+                const intersectionPath = path.filter(([pathStartX, pathStartY], index) => {
+                    const nextIndex = (index + 1) % pathLength;
+                    let [pathEndX, pathEndY] = path[nextIndex];
+                    pathStartX += startX;
+                    pathStartY += startY;
+                    pathEndX += startX;
+                    pathEndY += startY;
+                    if (pathStartY > y === pathEndY > y) {
+                        return;
+                    }
+                    const intersectionX = (pathEndX - pathStartX) * (y - pathStartY) / (pathEndY - pathStartY) + pathStartX;
+                    return intersectionX > x;
+                });
+                return intersectionPath.length % 2 === 1;
+            }
+        }
+
+        new App(document.getElementById('canvas'))
+    </script>
+</body>
+
+</html>
