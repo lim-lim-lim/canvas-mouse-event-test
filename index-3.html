@@ -46,6 +46,7 @@
                 const startY = poly.y;
                 const path = poly.path;
                 const context = this.context;
+                context.save();
                 context.fillStyle = poly.color;
                 context.beginPath();
                 context.moveTo(startX, startY)

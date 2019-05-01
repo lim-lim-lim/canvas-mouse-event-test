@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MouseEvent 4</title>
+    <style>
+        canvas {
+            border: 1px solid silver;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="700" height="700"></canvas>
+    <script>
+        class App {
+            constructor(canvasElement) {
+                this.canvas = canvasElement;
+                this.context = this.canvas.getContext('2d');
+                this.image = new Image();
+                this.image.src = 'asset/t-rex.png';
+                this.image.addEventListener('load', () => {
+                    this.initMouseEvent();
+                    this.render();
+                });
+            }
+
+            initMouseEvent() {
+                this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            processClick({ offsetX, offsetY }) {
+                if (this.hitTest(offsetX, offsetY)) {
+                    alert('Clicked...!!!')
+                }
+            }
+
+            render() {
+                this.context.drawImage(this.image, 80, 50);
+            }
+
+            hitTest(x, y) {
+                const imageData = this.context.getImageData(x, y, 1, 1).data;
+                return imageData[3];
+            }
+        }
+
+        new App(document.getElementById('canvas'))
+    </script>
+</body>
+
+</html>

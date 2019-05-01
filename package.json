@@ -1,0 +1,24 @@
+{
+  "name": "canvas-mouse-event-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/.bin/http-server" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lim-lim-lim/canvas-mouse-event-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lim-lim-lim/canvas-mouse-event-test/issues"
+  },
+  "homepage": "https://github.com/lim-lim-lim/canvas-mouse-event-test#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
