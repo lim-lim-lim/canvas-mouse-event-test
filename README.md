@@ -37,6 +37,35 @@ hitTest(x, y) {
     return distance <= circle.radius;
 }
 ```
+### 다각형 충돌체크
+- 클릭된 지점으로 임의의 선을 그었을때 
+- 교점의 갯수가 홀수만 클릭!
+
+<img width="850" alt="스크린샷 2019-05-03 오전 2 51 56" src="https://user-images.githubusercontent.com/11947298/57095692-6fad0f00-6d4e-11e9-854d-d3759e2a6da5.png">
+
+```
+hitTest(x, y) {
+     const poly = this.poly;
+     const path = poly.path;
+     const pathLength = path.length;
+     const startX = poly.x;
+     const startY = poly.y;
+     const intersectionPath = path.filter(([pathStartX, pathStartY], index) => {
+         const nextIndex = (index + 1) % pathLength;
+         let [pathEndX, pathEndY] = path[nextIndex];
+         pathStartX += startX;
+         pathStartY += startY;
+         pathEndX += startX;
+         pathEndY += startY;
+         if (pathStartY > y === pathEndY > y) {
+             return;
+         }
+         const intersectionX = (pathEndX - pathStartX) * (y - pathStartY) / (pathEndY - pathStartY) + pathStartX;
+         return intersectionX > x;
+     });
+     return intersectionPath.length % 2 === 1;
+ }
+```
 ### 더 정교한 충돌체크
 #### 픽셀검출 1
 - 이벤트 전용 캔버스를 생성하고
