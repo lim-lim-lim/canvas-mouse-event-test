@@ -10,6 +10,9 @@
 ## 클릭 이벤트 구현방법
 ### 사각형 충돌체크
 - 클릭된 지점의 좌표가 사각형 영역안에 포함되면 클릭! 
+
+<img width="751" alt="스크린샷 2019-05-03 오전 2 04 28" src="https://user-images.githubusercontent.com/11947298/57093147-14781e00-6d48-11e9-809e-e969c1ed339d.png">
+
 ```
  hitTest(x, y) {
     const rect = this.rect;
