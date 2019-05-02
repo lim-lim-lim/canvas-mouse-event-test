@@ -10,17 +10,62 @@
 ## 클릭 이벤트 구현방법
 ### 사각형 충돌체크
 - 클릭된 지점의 좌표가 사각형 영역안에 포함되면 클릭! 
+```
+ hitTest(x, y) {
+    const rect = this.rect;
+    const minX = rect.x;
+    const maxX = minX + rect.width;
+    const minY = rect.y;
+    const maxY = minY + rect.height;
+    return x > minX !== x > maxX && y > minY !== y > maxY;
+}
+```
 ### 원형 충돌체크
 - 클릭된 지점의 좌표에서 원의 중심점의 거리가 원의 반지름 보다 작다면 클릭!
+
+![c5400d92def339a6f58d8c7b6614c887_1553135793_4698](https://user-images.githubusercontent.com/11947298/57091747-d7f6f300-6d44-11e9-938a-77c3a0fc084c.png)
+
+```
+hitTest(x, y) {
+    const circle = this.circle;
+    const centerX = this.circle.x;
+    const centerY = this.circle.y;
+    const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    return distance <= circle.radius;
+}
+```
 ### 더 정교한 충돌체크
 #### 픽셀검출 1
 - 이벤트 전용 캔버스를 생성하고
 - 클릭 이벤트가 발생하는 순간
 - 오브젝트들을 등록된 역순으로 그리며 픽셀을 체크함.
+```
+hitTest(x, y) {
+    const imageData = this.context.getImageData(x, y, 1, 1).data;
+    return imageData[3];
+}
+```
 #### 픽셀검출 2
 - 오브젝트별로 고유의 컬러키를 설정하고
 - 이것을 이벤트 전용 캔버스에 랜더링
 - 마우스가 클릭된 좌표의 픽셀의 색깔과 오브젝트들의 고유 컬러키를 대조
+```
+this.imageMap = new Map();
+this.imageMap.set('ff0000ff', { name: '티라노사우르스', x: 80, y: 25, width: 300, height: 300, path: 'assets/trex.png', ref: null });
+this.imageMap.set('00ff00ff', { name: '알로사우르스', x: 150, y: 125, width: 250, height: 250, path: 'assets/alo.png', ref: null });
+this.imageMap.set('0000ffff', { name: '트리케라톱스', x: 0, y: 200, width: 200, height: 200, path: 'assets/triceratops.png', ref: null });
+```
+```
+getColor(x, y) {
+    const imageData = this.eventContext.getImageData(x, y, 1, 1).data;
+    const color = imageData.reduce((data, pixel)=>{
+        const hex = pixel.toString(16);
+        data += hex.length < 2 ? `0${hex}` : hex;
+        return data;
+    }, '');
+    return color;
+}
+```
 
 ### 고민중인 것
 #### 성능을 위한 타일링
