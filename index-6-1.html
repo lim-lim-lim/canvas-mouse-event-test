@@ -45,6 +45,7 @@
                 this.tempContext = this.tempCanvas.getContext('2d');
                 this.tempCanvas.width = this.canvas.width;
                 this.tempCanvas.height = this.canvas.height;
+                document.body.appendChild(this.eventCanvas);
             }
 
             initMouseEvent() {
