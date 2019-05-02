@@ -25,5 +25,22 @@
 ### 고민중인 것
 #### 성능을 위한 타일링
 - 베지어 곡선의 Bounds 찾기
+
+![Canvas_bezier](https://user-images.githubusercontent.com/11947298/57091126-68343880-6d43-11e9-8af0-dc3506332275.png)
+
+
 - Border가 있는 패스로 그려진 도형의 Bounds 찾기
+
+
+
 - Border가 있는 서로 다른 선분이 닿는 LineJoin 처리
+
+![Canvas_linejoin](https://user-images.githubusercontent.com/11947298/57090862-c3196000-6d42-11e9-9b83-571a4e8a4339.png)
+
+- Border가 있는 선분의 끝처리 LineCap 처리
+
+![Canvas_linecap](https://user-images.githubusercontent.com/11947298/57090985-1be8f880-6d43-11e9-8a14-2a802889734f.png)
+
+
+
+
