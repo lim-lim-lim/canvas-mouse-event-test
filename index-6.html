@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MouseEvent 5</title>
+    <style>
+        canvas {
+            border: 1px solid silver;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+        class App {
+            constructor(canvasElement) {
+                this.canvas = canvasElement;
+                this.context = this.canvas.getContext('2d');
+                this.eventCanvas = null;
+                this.eventContext = null;
+                this.imageMap = new Map();
+                this.imageMap.set('#ff0000', { name: '티라노사우르스', x: 80, y: 25, width: 300, height: 300, path: 'assets/trex.png', ref: null });
+                this.imageMap.set('#00ff00', { name: '알로사우르스', x: 150, y: 125, width: 250, height: 250, path: 'assets/alo.png', ref: null });
+                this.imageMap.set('#0000ff', { name: '트리케라톱스', x: -50, y: 200, width: 200, height: 200, path: 'assets/triceratops.png', ref: null });
+                this.loadImageAll(this.images).then(() => {
+                    this.initMouseEvent();
+                    this.initEventCanvas();
+                    this.render();
+                });
+            }
+
+            initEventCanvas() {
+                this.eventCanvas = document.createElement('canvas');
+                this.eventContext = this.eventCanvas.getContext('2d');
+                this.eventCanvas.width = this.canvas.width;
+                this.eventCanvas.height = this.canvas.height;
+            }
+
+            initMouseEvent() {
+                this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            loadImageAll(images) {
+                const promises = [];
+                for (let [key, image] of this.imageMap) {
+                    promises.push(this.loadImage(image));
+                }
+                return Promise.all(promises);
+            }
+
+            loadImage(image) {
+                return new Promise((res, rej) => {
+                    const imageElement = new Image();
+                    imageElement.src = image.path;
+                    imageElement.addEventListener('load', () => {
+                        image.ref = imageElement;
+                        res();
+                    });
+                })
+            }
+
+            processClick({ offsetX, offsetY }) {
+                const clickedImage = this.getImageByPoint(offsetX, offsetY);
+                if (clickedImage) {
+                    alert(clickedImage.name);
+                }
+            }
+
+            render() {
+                const context = this.context;
+                for (let [key, image] of this.imageMap) {
+                    // context.globalCompositeOperation = "source-in";
+                    context.fillStyle = key;
+                    context.fillRect(image.x, image.y, image.width, image.height);
+                    context.drawImage(image.ref, image.x, image.y, image.width, image.height);
+                    
+                    
+                    // context.globalCompositeOperation = "source-over";
+                    // context.globalCompositeOperation = "source-over";
+                }
+                // this.images.forEach((image) => {
+                //     context.drawImage(image.ref, image.x, image.y, image.width, image.height);
+                //     context.fillStyle = image
+                //     context.fillRect(image.x, image.y, image.width, image.height);
+                // });
+            }
+
+            getImageByPoint(x, y) {
+                this.eventCanvas.width = this.eventCanvas.width;
+                let count = this.images.length - 1;
+                while (count >= 0) {
+                    const image = this.images[count];
+                    this.eventContext.drawImage(image.ref, image.x, image.y, image.width, image.height);
+                    if (this.eventContext.getImageData(x, y, 1, 1).data[3]) {
+                        return image;
+                    }
+                    count--;
+                }
+            }
+        }
+
+        new App(document.getElementById('canvas'))
+    </script>
+</body>
+
+</html>

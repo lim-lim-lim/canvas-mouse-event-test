@@ -20,16 +20,24 @@
             constructor(canvasElement) {
                 this.canvas = canvasElement;
                 this.context = this.canvas.getContext('2d');
-                this.image = new Image();
-                this.image.src = 'asset/t-rex.png';
-                this.image.addEventListener('load', () => {
+                this.image = null;
+                this.loadImage().then(() => {
                     this.initMouseEvent();
                     this.render();
-                });
+                })
             }
 
             initMouseEvent() {
                 this.canvas.addEventListener('click', (e) => this.processClick(e));
+            }
+
+            loadImage() {
+                return new Promise((res, rej) => {
+                    this.image = new Image();
+                    this.image.src = 'assets/trex.png';
+                    this.image.addEventListener('load', res);
+                })
+
             }
 
             processClick({ offsetX, offsetY }) {
