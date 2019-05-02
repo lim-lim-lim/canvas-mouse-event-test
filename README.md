@@ -42,6 +42,9 @@ hitTest(x, y) {
 - 이벤트 전용 캔버스를 생성하고
 - 클릭 이벤트가 발생하는 순간
 - 오브젝트들을 등록된 역순으로 그리며 픽셀을 체크함.
+
+<img width="895" alt="스크린샷 2019-05-03 오전 2 27 52" src="https://user-images.githubusercontent.com/11947298/57094269-1e4f5080-6d4b-11e9-93f1-bc6ca86fe099.png">
+
 ```
 hitTest(x, y) {
     const imageData = this.context.getImageData(x, y, 1, 1).data;
@@ -52,6 +55,9 @@ hitTest(x, y) {
 - 오브젝트별로 고유의 컬러키를 설정하고
 - 이것을 이벤트 전용 캔버스에 랜더링
 - 마우스가 클릭된 좌표의 픽셀의 색깔과 오브젝트들의 고유 컬러키를 대조
+
+<img width="987" alt="스크린샷 2019-05-03 오전 2 35 36" src="https://user-images.githubusercontent.com/11947298/57094728-2b207400-6d4c-11e9-9bbc-7fbf1976f6db.png">
+
 ```
 this.imageMap = new Map();
 this.imageMap.set('ff0000ff', { name: '티라노사우르스', x: 80, y: 25, width: 300, height: 300, path: 'assets/trex.png', ref: null });
@@ -73,20 +79,12 @@ getColor(x, y) {
 ### 고민중인 것
 #### 성능을 위한 타일링
 - 베지어 곡선의 Bounds 찾기
-
-![Canvas_bezier](https://user-images.githubusercontent.com/11947298/57091126-68343880-6d43-11e9-8af0-dc3506332275.png)
-
-
 - Border가 있는 패스로 그려진 도형의 Bounds 찾기
-
-
-
 - Border가 있는 서로 다른 선분이 닿는 LineJoin 처리
-
-![Canvas_linejoin](https://user-images.githubusercontent.com/11947298/57090862-c3196000-6d42-11e9-9b83-571a4e8a4339.png)
-
 - Border가 있는 선분의 끝처리 LineCap 처리
 
+![Canvas_bezier](https://user-images.githubusercontent.com/11947298/57091126-68343880-6d43-11e9-8af0-dc3506332275.png)
+![Canvas_linejoin](https://user-images.githubusercontent.com/11947298/57090862-c3196000-6d42-11e9-9b83-571a4e8a4339.png)
 ![Canvas_linecap](https://user-images.githubusercontent.com/11947298/57090985-1be8f880-6d43-11e9-8a14-2a802889734f.png)
 
 
