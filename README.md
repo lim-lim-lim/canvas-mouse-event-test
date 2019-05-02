@@ -24,10 +24,10 @@
 ### 원형 충돌체크
 - 클릭된 지점의 좌표에서 원의 중심점의 거리가 원의 반지름 보다 작다면 클릭!
 
-![c5400d92def339a6f58d8c7b6614c887_1553135793_4698](https://user-images.githubusercontent.com/11947298/57091747-d7f6f300-6d44-11e9-938a-77c3a0fc084c.png)
-
 <img width="751" alt="스크린샷 2019-05-03 오전 2 04 28" src="https://user-images.githubusercontent.com/11947298/57093147-14781e00-6d48-11e9-809e-e969c1ed339d.png">
 
+
+![c5400d92def339a6f58d8c7b6614c887_1553135793_4698](https://user-images.githubusercontent.com/11947298/57091747-d7f6f300-6d44-11e9-938a-77c3a0fc084c.png)
 ```
 hitTest(x, y) {
     const circle = this.circle;
